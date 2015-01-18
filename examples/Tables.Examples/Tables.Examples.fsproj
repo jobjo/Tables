@@ -8,7 +8,7 @@
     <ProjectGuid>{6a0f90a6-97a3-49c1-b840-482e60cdd971}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Tables</RootNamespace>
-    <AssemblyName>Tables</AssemblyName>
+    <AssemblyName>Tables.Examples</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>Tables</Name>
@@ -19,10 +19,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>..\..\bin</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>..\..\bin\Tables.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Utilfs.fs" />
     <Compile Include="HtmlTables.fs" />
+    <Compile Include="Example.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tables\Tables.fsproj">

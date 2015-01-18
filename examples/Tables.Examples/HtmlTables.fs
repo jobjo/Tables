@@ -1,9 +1,9 @@
 ﻿namespace Tables.Examples
 module HtmlTable =
-    module T = Tables.Table
+
     open Tables
-    
-    open Utils.Printer
+    open Utils.Html
+    module T = Tables.Table
 
     let private culture = System.Globalization.CultureInfo.InvariantCulture
 
@@ -13,45 +13,9 @@ module HtmlTable =
         | Number of float
         | Table of Table<Cell>
 
-    type Attr = {Name: string; Value : string}
-
-    type Element = Text of string | Tag of Tag
-    and Tag = 
-        {
-            Name : string
-            Attributes : list<Attr>
-            Children : list<Element>
-        }
-
-    let withChildren chs t = {t with Children = chs}
-
-    let tag name attrs chs = Tag {Name = name; Attributes = attrs; Children = chs}
-    let text = Text
-    let strong = tag "strong"
-    let td = tag "td"
-    let tr = tag "tr"
-    let table = tag "table"
-
-    let (:=) n v = {Name = n; Value = v}
-    let renderElement =
-        let renderAttrs (attrs: list<Attr>) =
-            let atts = 
-                attrs
-                |> List.map (fun a -> sprintf "%s=\"%s\":" a.Name a.Value) 
-            System.String.Join (" ", atts)
-
-        let rec go = function
-            | Text s    -> 
-                !s
-            | Tag t     ->
-                !<[
-                    yield !(sprintf "<%s %s>" t.Name (renderAttrs t.Attributes))
-                    yield! List.map (go >> indent) t.Children
-                    yield !(sprintf "</%s>" t.Name)
-                ]
-        go >> run
-
+    /// Render HTML table
     let rec toHtmlTable (t: Table<Cell>) =
+        let rows = T.toRows t
         T.toRows t
         |> List.map (fun row ->
             row
@@ -67,10 +31,10 @@ module HtmlTable =
                         td [] [toHtmlTable t]
                 | None      ->
                     td [] []
-                
             )
             |> tr []
         )
-        |> table ["border" := "1"]
+        |> table ["class" :="display" ; "cellspacing" :="0"; "width" :="100%"]
 
+    /// Render as HTML.
     let renderAsHtml = toHtmlTable >> renderElement
